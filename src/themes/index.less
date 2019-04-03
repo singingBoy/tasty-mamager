@@ -3,7 +3,7 @@
 body {
   height: 100%;
   overflow-y: hidden;
-  background-color: #f8f8f8;
+  background-color: #f0f2f5;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -116,5 +116,18 @@ body {
         padding: 12px;
       }
     }
+  }
+}
+
+.button {
+  line-height: 72px;
+  text-align: center;
+  font-size: 18px;
+  cursor: pointer;
+  transition: @transition-ease-in;
+
+  &:hover {
+    color: @primary-color;
+    background-color: @hover-color;
   }
 }

@@ -1,36 +1,41 @@
-import React from 'react';
+import React, {Suspense} from 'react';
 import {Layout} from 'antd';
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
-import routes from '../router';
+import {getAllRoutes} from '../router';
 import Header from './Header';
-import SideMenu from './SiderMenu'
+import SideMenu from './SiderMenu';
+import ErrorPage from '../pages/404/404';
 import './style/layout.less';
 
-const { Content } = Layout;
+const {Content} = Layout;
 
 export default () => {
-  return(
-      <Layout>
-        <Header />
+  return (
+      <Router>
         <Layout>
-            <SideMenu />
+          <Header/>
+          <Layout>
+            <SideMenu/>
             <Layout className='app-content'>
               <Content className='main-content'>
-                <Router>
-                  {routes.map((route, index) => (
-                      <Route
-                          key={index}
-                          path={route.path}
-                          exact={route.exact}
-                          component={route.component}
-                      />
-                  ))}
-                </Router>
+                  <Suspense fallback={<div>Loading...</div>}>
+                    <Switch>
+                      {getAllRoutes().map((route, index) => (
+                          <Route
+                              key={index}
+                              path={route.path}
+                              exact={route.exact}
+                              component={route.component}
+                          />
+                      ))}
+                      <Route component={ErrorPage} />
+                    </Switch>
+                  </Suspense>
               </Content>
             </Layout>
-
+          </Layout>
         </Layout>
-      </Layout>
+      </Router>
   )
 }

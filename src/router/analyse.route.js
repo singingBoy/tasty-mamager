@@ -10,8 +10,9 @@ export default {
   children: [
     {
       name: '用户分析',
-      path: '/users_analyse',
+      path: '/',
       icon: 'area-chart',
+      exact: true,
       component: lazy(() => import('../pages/analyse/users_analyse/Users_Analyse'))
     },
     {

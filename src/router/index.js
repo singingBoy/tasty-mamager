@@ -1,9 +1,11 @@
 import analyse from './analyse.route';
 import product from './product.route';
+import hidden from './hidden.route';
 
 const routes = [
   analyse,
   product,
+  hidden,
 ];
 
 export default routes;

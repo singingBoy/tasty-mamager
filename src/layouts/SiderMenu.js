@@ -19,19 +19,29 @@ class SiderMenu extends Component{
                   style={{ height: '100%', borderRight: 0 }}
             >
               {
-                routes.map(route => (
-                    <Menu.SubMenu key={route.path} title={<span><Icon type={route.icon} />{route.name}</span>}>
-                      {
-                        route.children.map(child => (
-                            <Menu.Item key={`${child.path}`}>
-                              <Link to={`${child.path}`}>
-                                <Icon type={child.icon} />{child.name}
-                              </Link>
-                            </Menu.Item>
-                        ))
-                      }
-                    </Menu.SubMenu>
-                ))
+                routes.map(route => {
+                    if (route.hidden) {
+                        return null;
+                    }
+                    return (
+                        <Menu.SubMenu key={route.path} title={<span><Icon type={route.icon} />{route.name}</span>}>
+                            {
+                                route.children.map(child => {
+                                    if (child.hidden) {
+                                        return null;
+                                    }
+                                    return (
+                                        <Menu.Item key={`${child.path}`}>
+                                            <Link to={`${child.path}`}>
+                                                <Icon type={child.icon} />{child.name}
+                                            </Link>
+                                        </Menu.Item>
+                                    )
+                                })
+                            }
+                        </Menu.SubMenu>
+                    )
+                })
               }
             </Menu>
           </Fragment>

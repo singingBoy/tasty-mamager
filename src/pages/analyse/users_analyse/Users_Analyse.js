@@ -23,9 +23,9 @@ export default class Users_Analyse extends React.PureComponent{
     const {vipUsersAnalyseOptions} = this.state;
     return(
         <div>
-          <h1>users_analyse</h1>
+          <h1 className='content-header-title'>用户分析</h1>
           <div className='vip-users-analyse'>
-            <CircleChar option={vipUsersAnalyseOptions}/>
+            {/*<CircleChar option={vipUsersAnalyseOptions}/>*/}
           </div>
         </div>
     )

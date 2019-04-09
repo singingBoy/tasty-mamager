@@ -82,7 +82,7 @@ export default () => (
                 title={
                   <Fragment>
                     <span style={{ color: '#999', marginRight: 4 }}>Hi,甘杨星</span>
-                    <Avatar style={{ marginLeft: 8 }} src='https://pbs.twimg.com/profile_images/584098247641300992/N25WgvW_.png' />
+                    <Avatar style={{ marginLeft: 8 }} src='http://yahwo.cn/ts7884001711057.jpg' />
                   </Fragment>
                 }
             >

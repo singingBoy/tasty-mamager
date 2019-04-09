@@ -12,7 +12,15 @@ export default {
       name: '类目管理',
       path: '/product_classify',
       icon: 'appstore',
-      component: lazy(() => import('../pages/product/product_classify/Product_Classify'))
+      component: lazy(() => import('../pages/product/product_classify/Product_Classify')),
+      children: [
+        {
+          name: '类目详情',
+          path: '/product_classify_detail',
+          hidden: true,
+          component: lazy(() => import('../pages/product/product_classify_detail/Product_Classify_Detail'))
+        },
+      ]
     },
     {
       name: '商品管理',

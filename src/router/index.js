@@ -27,16 +27,18 @@ export function getAllRoutes(allRoutes = []) {
 }
 
 export function getCurrentRoutes(location) {
-  const {pathname, current = []} = location;
-  function getCurrentChildRoute(currentRoutes = [], child, parent) {
+  const current = [];
+  const {pathname} = location;
+  function getCurrentChildRoute(currentRoutes = [], child, parent, grandparent) {
     for(let i = 0; i < child.length; i++) {
       const {path, children = []} = child[i];
       if (pathname === path) {
+        if (grandparent) currentRoutes.push(grandparent);
         currentRoutes.push(parent);
         currentRoutes.push(child[i]);
         break;
       } else if (children.length) {
-        getCurrentChildRoute(currentRoutes, children, child[i]);
+        getCurrentChildRoute(currentRoutes, children, child[i], parent);
       }
     }
   }
@@ -45,5 +47,6 @@ export function getCurrentRoutes(location) {
     const {children = []} = column;
     getCurrentChildRoute(current, children, column);
   });
+
   return current;
 }

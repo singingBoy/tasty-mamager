@@ -3,6 +3,7 @@ import './users_analyse.less';
 import {CircleChar} from '../../../components'
 
 import {option} from './data';
+import {PageHeader} from "antd";
 
 export default class Users_Analyse extends React.PureComponent{
   constructor(props) {
@@ -23,7 +24,7 @@ export default class Users_Analyse extends React.PureComponent{
     const {vipUsersAnalyseOptions} = this.state;
     return(
         <div>
-          <h1 className='content-header-title'>用户分析</h1>
+          <PageHeader title='用户分析' subTitle='洞悉用户实情，把握产品走向' />
           <div className='vip-users-analyse'>
             {/*<CircleChar option={vipUsersAnalyseOptions}/>*/}
           </div>

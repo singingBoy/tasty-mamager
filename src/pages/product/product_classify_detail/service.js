@@ -1,8 +1,8 @@
-import request, {RequestApi} from '../../../utils/request';
+import request from '../../../utils/request';
 
 export function getFirstClassify(pid) {
     return request({
-        url: `${RequestApi}/category/list`,
+        url: `/category/list`,
         data: {
             pid,
         }

@@ -1,0 +1,1 @@
+export const RequestApi = 'http://tastyapi.gyxing.vip';

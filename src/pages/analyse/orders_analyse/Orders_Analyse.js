@@ -1,6 +1,7 @@
 import React from 'react';
 import './orders_analyse.less';
+import {PageHeader} from "antd";
 
 export default () => (
-    <h1 className='content-header-title'>订单分析</h1>
+    <PageHeader title='订单分析' subTitle='审查订单情况，力争单量日日高升' />
 )

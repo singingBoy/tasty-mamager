@@ -1,10 +1,15 @@
-import request, {RequestApi} from '../../../utils/request';
+import request from '../../../utils/request';
+import upload from '../../../utils/upload';
 
 export function getFirstClassify() {
     return request({
-        url: `${RequestApi}/category/list`,
+        url: `/category/list`,
         data: {
             pid: 1,
         }
     });
+}
+
+export function uploadImage(file) {
+    return upload(file);
 }

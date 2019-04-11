@@ -4,6 +4,7 @@ import { notification } from 'antd';
 import NProgress from 'nprogress';
 import qs from 'qs';
 import {RequestApi} from '../api';
+import {createBrowserHistory} from 'history';
 
 axios.defaults.timeout = 6000;
 export default function request(options) {
@@ -25,6 +26,12 @@ export default function request(options) {
     return axios(options)
         .then(response => {
             const { msg, code, data } = response.data;
+
+            if(code === 401) {
+                createBrowserHistory({
+                    forceRefresh: true
+                }).push('login');
+            }
 
             return Promise.resolve({
                 success: true,

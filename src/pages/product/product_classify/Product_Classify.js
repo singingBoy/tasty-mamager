@@ -1,5 +1,5 @@
 import React, {Component, Fragment} from 'react';
-import { Card, Icon, Empty, PageHeader, List, Typography } from 'antd';
+import { Card, Icon, Empty, PageHeader, List, Typography, Button } from 'antd';
 
 import Edit from './components/edit/Edit';
 
@@ -15,29 +15,44 @@ class Product_Classify extends Component{
         };
     }
     componentWillMount() {
+        this.getList();
+    }
+    getList = () => {
         getFirstClassify().then(({data}) => {
             this.setState({
                 rootClassify: data,
                 loading: false
             })
         })
-    }
+    };
     render() {
         const {rootClassify, loading} = this.state;
         return(
             <Fragment>
-                <PageHeader className='product-classify' title="类目管理" subTitle="网罗更多的类目，做最好的产品">
+                <PageHeader className='product-classify'
+                            title="类目管理" subTitle="网罗更多的类目，做最好的产品"
+                            extra={[
+                                <Button
+                                    onClick={e => this.onEdit(e, {pid: 1})}
+                                    key='plus'
+                                    type="primary"
+                                    shape="circle"
+                                    icon="plus"
+                                />
+                            ]}
+                >
                     <List
+                        className='mt30'
                         rowKey="id"
                         loading={loading}
-                        grid={{ gutter: 24, lg: 3, md: 2, sm: 1, xs: 1 }}
+                        grid={{ gutter: 24, lg: 5, md: 3, sm: 2, xs: 1 }}
                         dataSource={[...rootClassify]}
                         renderItem={item =>
                             (
                                 <List.Item key={item.id}>
                                     <Card
                                         hoverable
-                                        cover={item.image ? <img alt="海鲜" src={item.image} /> : <Empty description="暂无图片"/>}
+                                        cover={item.image ? <img className='cover-image' alt="海鲜" src={item.image} /> : <Empty description="暂无图片"/>}
                                         actions={[
                                             <div onClick={e => this.navigateToDetail(e, item)}><Icon type="ordered-list"/></div>,
                                             <div data-item={item} onClick={e => this.onEdit(e, item)}><Icon type="edit" /></div>,
@@ -47,7 +62,7 @@ class Product_Classify extends Component{
                                         <Card.Meta
                                             title={item.name}
                                             description={
-                                                <Typography.Paragraph ellipsis={{ rows: 3, expandable: true }}>
+                                                <Typography.Paragraph ellipsis={{ rows: 3 }}>
                                                     {item.description|| '暂无描述'}
                                                 </Typography.Paragraph>
                                             }
@@ -57,7 +72,7 @@ class Product_Classify extends Component{
                             )
                         }
                     />
-                    <Edit wrappedComponentRef={dom => this.editor = dom}/>
+                    <Edit wrappedComponentRef={dom => this.editor = dom} callback={this.getList}/>
                 </PageHeader>
             </Fragment>
         );

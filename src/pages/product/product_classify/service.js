@@ -10,6 +10,13 @@ export function getFirstClassify() {
     });
 }
 
+export function saveClassify(data) {
+    return request({
+        url: '/category/save',
+        data,
+    })
+}
+
 export function uploadImage(file) {
     return upload(file);
 }

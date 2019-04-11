@@ -1,7 +1,7 @@
 import React from 'react';
-import {Drawer, Form, Icon, Input, message, Upload} from 'antd';
+import {Drawer, Form, Icon, Input, message, Upload, InputNumber, Button} from 'antd';
 import Rules from './rules';
-import { uploadImage } from '../../service';
+import { uploadImage, saveClassify } from '../../service';
 import './edit.less';
 
 class Edit extends React.Component {
@@ -33,9 +33,21 @@ class Edit extends React.Component {
     };
     handleSubmit = (e) => {
         e.preventDefault();
-        this.props.form.validateFieldsAndScroll((err, values) => {
+        const {form, callback} = this.props;
+        form.validateFieldsAndScroll((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
+                const {item} = this.state;
+                if (!item.image) {
+                    return message.error('图片大小限制2M!');
+                }
+                saveClassify({
+                    ...item,
+                    ...values,
+                }).then(res => {
+                    message.success('保存成功~');
+                    this.close();
+                    callback && callback();
+                });
             }
         });
     };
@@ -100,7 +112,7 @@ class Edit extends React.Component {
                             <Input.TextArea rows={5} type="description"/>
                         )}
                     </Form.Item>
-                    <Form.Item label="图 片" help='图片小于2M'>
+                    <Form.Item required label="图 片" help='图片小于2M'>
                         <Upload
                             name="image"
                             accept="image/*"
@@ -116,6 +128,17 @@ class Edit extends React.Component {
                             }
                         </Upload>
 
+                    </Form.Item>
+                    <Form.Item label="排 序" hasFeedback>
+                        {getFieldDecorator('sort', {
+                            rules: Rules.sort,
+                            initialValue: sort
+                        })(
+                            <InputNumber min={1} />
+                        )}
+                    </Form.Item>
+                    <Form.Item className='mt50 ml50'>
+                        <Button type="primary" size='large' htmlType="submit">保 存</Button>
                     </Form.Item>
                 </Form>
             </Drawer>

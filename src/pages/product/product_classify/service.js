@@ -20,3 +20,12 @@ export function saveClassify(data) {
 export function uploadImage(file) {
     return upload(file);
 }
+
+export function delClassify(id) {
+    return request({
+        url: '/category/del',
+        data: {
+            id,
+        },
+    })
+}

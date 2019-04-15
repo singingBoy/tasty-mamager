@@ -7,6 +7,7 @@ import {RequestApi} from '../api';
 import {createBrowserHistory} from 'history';
 
 axios.defaults.timeout = 6000;
+axios.defaults.withCredentials = true;
 export default function request(options) {
     const { data, url, method = 'post' } = options;
     const cloneData = cloneDeep(data || {});

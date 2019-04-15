@@ -1,7 +1,7 @@
 import React from 'react';
 import {Drawer, Form, Icon, Input, message, Upload, InputNumber, Button} from 'antd';
 import Rules from './rules';
-import { uploadImage, saveClassify } from '../../service';
+import { uploadImage, saveClassify } from '../service';
 import './edit.less';
 
 class Edit extends React.Component {
@@ -38,7 +38,7 @@ class Edit extends React.Component {
             if (!err) {
                 const {item} = this.state;
                 if (!item.image) {
-                    return message.error('图片大小限制2M!');
+                    return message.error('请上传封面图!');
                 }
                 saveClassify({
                     ...item,
@@ -89,7 +89,7 @@ class Edit extends React.Component {
         return (
             <Drawer
                 width={400}
-                title={<a>{title}</a>}
+                title={<span className='a-btn'>{title}</span>}
                 placement="right"
                 closable={false}
                 onClose={this.close}

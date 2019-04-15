@@ -15,7 +15,7 @@ class HeaderBreadcrumb extends Component{
                             <Breadcrumb.Item key={index}>
                                 {
                                     index === 0 ? <span>{route.name}</span> :
-                                        <a onClick={() => history.push(route.path)}>{route.name}</a >
+                                        <a href='javascript:void(0);' onClick={() => history.push(route.path)}>{route.name}</a>
                                 }
                             </Breadcrumb.Item>
                         ))

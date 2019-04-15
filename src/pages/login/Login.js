@@ -1,6 +1,7 @@
-import React, { PureComponent, Fragment } from 'react'
-import PropTypes from 'prop-types'
-import { Button, Row, Form, Icon, Input } from 'antd'
+import React, { PureComponent, Fragment } from 'react';
+import PropTypes from 'prop-types';
+import { Button, Row, Form, Input, message } from 'antd';
+import {ajaxLogin} from './service';
 
 import './login.less'
 const FormItem = Form.Item;
@@ -14,12 +15,15 @@ class Login extends PureComponent {
     }
     handleOk = () => {
         const { form } = this.props;
-        const { validateFieldsAndScroll } = form
+        const { validateFieldsAndScroll } = form;
         validateFieldsAndScroll((errors, values) => {
             if (errors) {
                 return
             }
-            console.log('请求登录');
+            ajaxLogin(values).then(res => {
+                message.success('xxx，欢迎您~');
+                this.props.history.goBack(-1);
+            });
         })
     };
 
@@ -37,7 +41,7 @@ class Login extends PureComponent {
                         </div>
                         <form>
                             <FormItem hasFeedback>
-                                {getFieldDecorator('username', {
+                                {getFieldDecorator('account', {
                                     rules: [{required: true}]
                                 })(
                                     <Input

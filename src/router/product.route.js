@@ -26,7 +26,15 @@ export default {
       name: '商品管理',
       path: '/product_manager',
       icon: 'shop',
-      component: lazy(() => import('../pages/product/product_manager/Product_Manager'))
+      component: lazy(() => import('../pages/product/product_manager/Product_Manager')),
+      children: [
+        {
+          name: '类目详情',
+          path: '/product_detail',
+          hidden: true,
+          component: lazy(() => import('../pages/product/product_detail/Product_Detail'))
+        },
+      ]
     },
   ]
 }

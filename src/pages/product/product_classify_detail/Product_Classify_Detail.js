@@ -1,9 +1,9 @@
 import React, {Component, Fragment} from 'react';
-import {getFirstClassify} from './service';
-import {Table, Empty, PageHeader, Button} from 'antd';
+import {Table, Empty, PageHeader, Button, Modal, message} from 'antd';
 import Edit from '../product_classify/edit/Edit';
 
 import './product_classify_detail.less';
+import {delClassify, getClassify} from "../product_classify/service";
 
 const {Column} = Table;
 export default class Product_Classify_Detail extends Component {
@@ -24,19 +24,39 @@ export default class Product_Classify_Detail extends Component {
 
     getList = () => {
         const {pId} = this.state;
-        getFirstClassify(pId).then(({data}) => {
+        getClassify(pId).then(({data}) => {
             this.setState({
                 classify: data,
             })
         });
     };
 
-    onEdit = () => {
+    onEdit = (item = {}) => {
         const {pId} = this.state;
         this.editor.show({
             pid: pId,
+            ...item,
         });
     };
+
+    onDel = (item) => {
+        const {name, id} = item;
+        Modal.confirm({
+            title: `确定删除【${name}】?`,
+            okText: '确定',
+            okType: 'danger',
+            cancelText: '取消',
+            onOk: () => {
+                delClassify(id).then(() => {
+                    message.success('删除成功！');
+                    this.getList();
+                });
+            },
+            onCancel() {
+                message.info('取消删除~');
+            },
+        });
+    }
 
     render() {
         const {classify, pName, description} = this.state;
@@ -55,7 +75,7 @@ export default class Product_Classify_Detail extends Component {
                             icon="redo"
                         />,
                         <Button
-                            onClick={this.onEdit}
+                            onClick={() => this.onEdit()}
                             key='plus'
                             type="primary"
                             shape="circle"
@@ -71,10 +91,10 @@ export default class Product_Classify_Detail extends Component {
                             <Column title="图片" dataIndex="image" width={100} render={img => (
                                 img ? <img className='classify-detail-image' src={img} /> : <Empty description=""/>
                             )}/>
-                            <Column title="操作" dataIndex="id" width={100} render={id => (
+                            <Column title="操作" dataIndex="id" width={100} render={(id, item) => (
                                 <Fragment>
-                                    <p className='a-btn'>编辑</p>
-                                    <p className="a-btn-red">删除</p>
+                                    <p className='a-btn' onClick={() => this.onEdit(item)}>编辑</p>
+                                    <p className="a-btn-red" onClick={() => this.onDel(item)}>删除</p>
                                 </Fragment>
                             )}/>
                         </Table>

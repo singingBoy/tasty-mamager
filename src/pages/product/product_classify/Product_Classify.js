@@ -3,7 +3,7 @@ import { Card, Icon, Empty, PageHeader, List, Typography, Button, Modal, message
 
 import Edit from './edit/Edit';
 
-import { getFirstClassify, delClassify } from './service';
+import { getClassify, delClassify } from './service';
 import './product_classify.less';
 
 class Product_Classify extends Component{
@@ -81,7 +81,7 @@ class Product_Classify extends Component{
     }
 
     getList = () => {
-        getFirstClassify().then(({data}) => {
+        getClassify().then(({data}) => {
             this.setState({
                 rootClassify: data,
                 loading: false
@@ -103,7 +103,7 @@ class Product_Classify extends Component{
 
     onDel = (e, item) => {
         e.stopPropagation();
-        const {name, description, id} = item;
+        const {name, id} = item;
         Modal.confirm({
             title: `确定删除【${name}】?`,
             okText: '确定',

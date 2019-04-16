@@ -1,11 +1,11 @@
 import request from '../../../utils/request';
 import upload from '../../../utils/upload';
 
-export function getFirstClassify() {
+export function getClassify(pid = 1) {
     return request({
         url: `/category/list`,
         data: {
-            pid: 1,
+            pid,
         }
     });
 }

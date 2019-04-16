@@ -10,7 +10,8 @@ axios.defaults.timeout = 6000;
 axios.defaults.withCredentials = true;
 export default function request(options) {
     const { data, url, method = 'post' } = options;
-    const cloneData = cloneDeep(data || {});
+
+    let cloneData = cloneDeep(data || {});
 
     options.method = options.method || 'post';
     options.url = RequestApi + (
@@ -21,7 +22,7 @@ export default function request(options) {
     options.headers = {
         'Content-Type': 'application/x-www-form-urlencoded'
     };
-    options.data = qs.stringify(cloneData);
+    options.data = qs.stringify(cloneData, { skipNulls: true, arrayFormat: 'repeat' });
 
     NProgress.start();
     return axios(options)
@@ -32,6 +33,7 @@ export default function request(options) {
                 createBrowserHistory({
                     forceRefresh: true
                 }).push('login');
+                return null;
             }
 
             return Promise.resolve({
@@ -42,7 +44,7 @@ export default function request(options) {
             })
         })
         .catch(err => {
-            const { status, message, error } = err.data;
+            const { status = 500, message, error } = err.data || {};
 
             notification['error']({
                 message: error || '服务器出错',

@@ -1,7 +1,8 @@
 import React from 'react';
 import {Drawer, Form, Icon, Input, message, Upload, InputNumber, Button} from 'antd';
 import Rules from './rules';
-import { uploadImage, saveClassify } from '../service';
+import { saveClassify } from '../../../../service/classify.service';
+import { uploadImage } from '../../../../service/upload.service';
 import './edit.less';
 
 class Edit extends React.Component {

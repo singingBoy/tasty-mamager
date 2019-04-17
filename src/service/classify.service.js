@@ -1,5 +1,6 @@
-import request from '../../../utils/request';
-import upload from '../../../utils/upload';
+import request from "../utils/request";
+
+import upload from '../utils/upload';
 
 export function getClassify(pid = 1) {
     return request({
@@ -17,9 +18,6 @@ export function saveClassify(data) {
     })
 }
 
-export function uploadImage(file) {
-    return upload(file);
-}
 
 export function delClassify(id) {
     return request({

@@ -3,7 +3,7 @@ import { Card, Icon, Empty, PageHeader, List, Typography, Button, Modal, message
 
 import Edit from './edit/Edit';
 
-import { getClassify, delClassify } from './service';
+import {getClassify, delClassify} from "../../../service/classify.service";
 import './product_classify.less';
 
 class Product_Classify extends Component{

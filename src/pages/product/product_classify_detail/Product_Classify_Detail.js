@@ -3,7 +3,7 @@ import {Table, Empty, PageHeader, Button, Modal, message} from 'antd';
 import Edit from '../product_classify/edit/Edit';
 
 import './product_classify_detail.less';
-import {delClassify, getClassify} from "../product_classify/service";
+import {delClassify, getClassify} from "../../../service/classify.service";
 
 const {Column} = Table;
 export default class Product_Classify_Detail extends Component {

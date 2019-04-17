@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import {Button, Empty, PageHeader, Table} from "antd";
 import Search from './search/Search'
-import {getProducts} from './service';
+import {getProducts} from '../../../service/product.service';
 
 import './product_manager.less';
 
@@ -27,8 +27,8 @@ export default class Product_Manager extends Component {
             page: pagination.current - 1,
             ...query,
         }).then(({data}) => {
-            const {number, content} = data;
-            pagination.total = number;
+            const {totalPages, content} = data;
+            pagination.total = totalPages;
             this.setState({
                 products: content,
                 pagination
@@ -45,9 +45,11 @@ export default class Product_Manager extends Component {
         this.getList();
     };
 
-    navigateToDetail = () => {
+    navigateToDetail = ({id}) => {
         const {history} = this.props;
-        history.push('/product_detail')
+        history.push('/product_detail', {
+            id
+        })
     };
 
     render() {
@@ -59,7 +61,7 @@ export default class Product_Manager extends Component {
                 extra={[
                     <Button
                         className='mr20'
-                        onClick={this.getList}
+                        onClick={() => this.getList()}
                         key='redo'
                         type="primary"
                         shape="circle"
@@ -90,12 +92,12 @@ export default class Product_Manager extends Component {
                         <Column title="进货价/￥" dataIndex="cost_price" width={250} align='left' sorter={(a,b) => a.cost_price - b.cost_price}/>
                         <Column title="产地" dataIndex="place" width={200} align='left'/>
                         <Column title="分类" dataIndex="category_name" width={200} align='left'/>
-                        <Column title="图片" dataIndex="images" width={400} render={imgs => imgs.map(img => (
-                            <img className='product-image mr5 mb5' src={img} />
+                        <Column title="图片" dataIndex="images" width={400} render={imgs => imgs.map((img, i) => (
+                            <img key={i} className='product-image mr5 mb5' src={img} />
                         ))}/>
                         <Column title="操作" dataIndex="id" width={100} fixed="right" render={(id, item) => (
                             <Fragment>
-                                <p className='a-btn' onClick={() => this.onEdit(item)}>编辑</p>
+                                <p className='a-btn' onClick={() => this.navigateToDetail(item)}>编辑</p>
                                 <p className="a-btn-red" onClick={() => this.onDel(item)}>删除</p>
                             </Fragment>
                         )}/>

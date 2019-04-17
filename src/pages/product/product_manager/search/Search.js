@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Button, Cascader, Col, Form, Input, Row} from "antd";
-import {getClassify} from "../../product_classify/service";
+import {getClassify} from "../../../../service/classify.service";
 
 class Search extends Component{
     state = {
@@ -72,6 +72,7 @@ class Search extends Component{
                         <Form.Item label='分类:'>
                             {getFieldDecorator(`classify`)(
                                 <Cascader
+                                    placeholder='请选择'
                                     options={classify}
                                     loadData={this.loadClassify}
                                     fieldNames={fieldNames}

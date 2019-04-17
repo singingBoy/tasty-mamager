@@ -1,17 +1,26 @@
 import React, {Component} from 'react';
 import {Button, Cascader, Form, Icon, Input, message, PageHeader, Upload} from "antd";
-import {getClassify, uploadImage} from "../product_classify/service";
-import {save} from "./service";
+import {save, getDetail} from "../../../service/product.service";
+import {getClassify} from "../../../service/classify.service";
+import {uploadImage} from "../../../service/upload.service";
 
 class Product_Detail extends Component {
-    state = {
-        classify: [],
-        uploading: false,
-        images: [],
-    };
+    constructor(props) {
+        super(props);
+        const {id} = this.props.location.state;
+        this.state = {
+            classify: [],
+            uploading: false,
+            images: [],
+            id,
+        }
+    }
 
     componentWillMount() {
         this.initClassify();
+        if(this.state.id) {
+            this.initDetail();
+        }
     }
 
     render() {
@@ -199,6 +208,10 @@ class Product_Detail extends Component {
                 classify: data.map(d => ({...d, isLeaf: false,})),
             })
         })
+    };
+
+    initDetail = () => {
+        getDetail().then()
     };
 
     loadClassify = (selectedOptions) => {

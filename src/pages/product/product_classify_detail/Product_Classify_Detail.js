@@ -9,7 +9,7 @@ const {Column} = Table;
 export default class Product_Classify_Detail extends Component {
     constructor(props) {
         super(props);
-        const {id, name, description} = this.props.location.state;
+        const {id, name, description} = props.location.state || {};
         this.state = {
             classify: [],
             pId: id,

@@ -7,25 +7,23 @@ import {uploadImage} from "../../../service/upload.service";
 class Product_Detail extends Component {
     constructor(props) {
         super(props);
-        const {id} = this.props.location.state;
+        const {id} = props.location.state || {};
         this.state = {
             classify: [],
             uploading: false,
             images: [],
             id,
+            data: {},
         }
     }
 
     componentWillMount() {
         this.initClassify();
-        if(this.state.id) {
-            this.initDetail();
-        }
     }
 
     render() {
         const {getFieldDecorator} = this.props.form;
-        const {classify, uploading, images} = this.state;
+        const {classify, uploading, images, data} = this.state;
         const {formItemLayout, tailFormItemLayout} = this.createLayout();
         const fieldNames = {
             label: 'name', value: 'id', children: 'children'
@@ -42,6 +40,7 @@ class Product_Detail extends Component {
                             rules: [{
                                 required: true, message: 'Please input product name!',
                             }],
+                            initialValue: data.name
                         })(
                             <Input/>
                         )}
@@ -51,6 +50,7 @@ class Product_Detail extends Component {
                             rules: [{
                                 required: true, message: 'Please input product category!',
                             }],
+                            initialValue: data.category_id
                         })(
                             <Cascader
                                 placeholder='请选择'
@@ -65,6 +65,7 @@ class Product_Detail extends Component {
                             rules: [{
                                 required: true, message: 'Please input product sku!',
                             }],
+                            initialValue: data.sku_name
                         })(
                             <Input/>
                         )}
@@ -74,6 +75,7 @@ class Product_Detail extends Component {
                             rules: [{
                                 required: true, message: 'Please input product description!',
                             }],
+                            initialValue: data.description
                         })(
                             <Input.TextArea rows={4}/>
                         )}
@@ -83,6 +85,7 @@ class Product_Detail extends Component {
                             rules: [{
                                 required: true, message: 'Please input product code!',
                             }],
+                            initialValue: data.code
                         })(
                             <Input/>
                         )}
@@ -92,6 +95,7 @@ class Product_Detail extends Component {
                             rules: [{
                                 required: true, message: 'Please input product cost price!',
                             }],
+                            initialValue: data.cost_price
                         })(
                             <Input/>
                         )}
@@ -101,6 +105,7 @@ class Product_Detail extends Component {
                             rules: [{
                                 required: true, message: 'Please input product price!',
                             }],
+                            initialValue: data.price
                         })(
                             <Input/>
                         )}
@@ -110,6 +115,7 @@ class Product_Detail extends Component {
                             rules: [{
                                 required: true, message: 'Please input product activity price!',
                             }],
+                            initialValue: data.activity_price
                         })(
                             <Input/>
                         )}
@@ -119,6 +125,7 @@ class Product_Detail extends Component {
                             rules: [{
                                 required: true, message: 'Please input product place!',
                             }],
+                            initialValue: data.place
                         })(
                             <Input/>
                         )}
@@ -203,15 +210,31 @@ class Product_Detail extends Component {
     };
 
     initClassify = () => {
+        const {id} = this.state;
         getClassify().then(({data}) => {
             this.setState({
                 classify: data.map(d => ({...d, isLeaf: false,})),
-            })
+            }, () => {
+                id && this.initDetail();
+            });
         })
     };
 
     initDetail = () => {
-        getDetail().then()
+        getDetail(this.state.id).then(res => {
+            const {data} = res;
+            this.setState({
+                images: data.images.map((img, index) => ({
+                    uid: Date.now() + index,
+                    status: 'done',
+                    url: img
+                })),
+                data: {
+                    ...data,
+                    category_id: data.category.id,
+                }
+            })
+        })
     };
 
     loadClassify = (selectedOptions) => {
